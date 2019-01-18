@@ -1,7 +1,7 @@
 local AISN_Firefly = {}
 
 --AISN_Firefly.health = 50
---AAAAAAAAAAAAAAA
+
 --setting up a new 'table', the switch between left and the right sprite and giving the thing a width and height (see main.lua for the values) and centering on the screen dividing the resolution by 2
 --also setting up the body for our firefly 'object'
 function AISN_Firefly.new(self, l, r, w, h)
