@@ -1,4 +1,4 @@
--- version 0.06
+-- version 0.07
 -- by nondidjos
 
 
@@ -35,7 +35,6 @@ end
 --then we run the update callback on AISN_Firely
 function love.update(dt)
     world:update(dt)
---    AISN_Firefly:getLinearDampning()
 
     if love.keyboard.isDown('w') then
         AISN_Firefly:accelerate(0, -5)

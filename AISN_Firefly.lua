@@ -1,8 +1,7 @@
 local AISN_Firefly = {}
 
 
---setting up a new 'table', the switch between left and the right sprite and giving the thing a width and height (see main.lua for the values) and centering on the screen dividing the resolution by 2
---also setting up the body for our firefly 'object'
+--this is where we set all the values, we're creating a table for calling back later as "self.(...)"
 function AISN_Firefly.new(self, l, r, w, h)
     o = {}
     self.imgl = l
@@ -32,11 +31,12 @@ function AISN_Firefly.new(self, l, r, w, h)
     AISN_Firefly.rotspeed = 0
 
 --AISN_Firefly.health = 50
-
+--creating our body
     AISN_Firefly.body = love.physics.newBody(world, AISN_Firefly.screen_position.x, AISN_Firefly.screen_position.y, "dynamic")
     AISN_Firefly.shape = love.physics.newPolygonShape(AISN_Firefly.w, AISN_Firefly.h, 100, 200, 300, 400)
     AISN_Firefly.fixture = love.physics.newFixture(AISN_Firefly.body, AISN_Firefly.shape, 20)
 
+--??? weird stuff
     setmetatable(o, self)
     self.__index = self
     return o
@@ -74,6 +74,7 @@ function AISN_Firefly.translate_rot(cx, cy, rot)
 end
 
 
+--determining which side we need to apply thrust to (+ or -)
 function AISN_Firefly.convangle(ang)
     if ang > math.pi then
         a = ang - math.pi*2 
@@ -85,26 +86,25 @@ function AISN_Firefly.convangle(ang)
 end
 
 
---here we draw the ship and we try to recenter the ship substracting the translate_rot value
+--here we draw the ship and we recenter the ship substracting the translate_rot value
 function AISN_Firefly.draw(self)
     love.graphics.draw(myAISN_Firefly.img, AISN_Firefly.screen_position.x - self.tr_x, AISN_Firefly.screen_position.y - self.tr_y, AISN_Firefly.frontangle)
+--printing values for debugging
     love.graphics.print(self.cursorangle - self.frontangle)
     love.graphics.print(self.rotspeed, 0, 20)
     love.graphics.print(self.frontangle, 0, 40)
     love.graphics.print(self.cursorangle, 0, 60)
 end
 
-
---here we make our own update callback, we calculate how fast our ship is going and the rotation with some wisardry
---the we set the position of our body with the screenpositions and adding in the offset
---and finally we determine when to flip the sprites so it always looks upright and we return all of this for main.lua to require
+--this is the whole update loop for everything position and rotation related
 function AISN_Firefly.updateposition(self, dt)
+--calculating the velocity by adding the thrust to the existing velocity and feeding back the world coordonates of the ship
     self.world_position.x = self.world_position.x + dt * self.velocity.x
     self.world_position.y = self.world_position.y + dt * self.velocity.y
 
     self.cursorangle = calc_rot(self.screen_position.x, self.screen_position.y) + math.pi
---    self.body:setAngle(self.cursorangle)
 
+--here we use convangle and apply it, adding 2 fields that determine when we start applying rotation to avoid shaking
     ra = self.convangle(self.cursorangle - self.frontangle)
     if ra > 0.01 then
         self.rotspeed = 1
@@ -113,6 +113,7 @@ function AISN_Firefly.updateposition(self, dt)
     else self.rotspeed = 0
     end
 
+--here we calculate the actual rotate movement with the front angle of the ship, using the rotspeed we set earlier
     self.frontangle = self.frontangle + self.rotspeed * dt 
     if self.frontangle > 2*math.pi then
         self.frontangle = self.frontangle - 2*math.pi
@@ -121,12 +122,13 @@ function AISN_Firefly.updateposition(self, dt)
     if self.frontangle < 0 then
         self.frontangle =  2*math.pi - self.frontangle
     end
-    
-    self.tr_x, self.tr_y = self.translate_rot(self.cx, self.cy, self.frontangle)
-    
 
+--here we calculate where we need to locate the rotation point based on the front angle and the base translate rot values
+    self.tr_x, self.tr_y = self.translate_rot(self.cx, self.cy, self.frontangle)
+--here we center the body correctly using the translate vlues and the screen pos stuff we did earlier
     self.body:setPosition(self.screen_position.x - self.tr_x, self.screen_position.y - self.tr_y)
 
+--here we check wether the ship's angle is pointing to the left or the right and changing the sprite accordingly so it stays upright
     if self.frontangle >= 0 and self.frontangle < math.pi/2 then
         self.img = self.imgl
     elseif self.frontangle >= math.pi/2 and self.frontangle < 3*math.pi/2 then
