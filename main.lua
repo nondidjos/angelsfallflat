@@ -37,16 +37,32 @@ function love.update(dt)
     world:update(dt)
 
     if love.keyboard.isDown('w') then
-        AISN_Firefly:accelerate(0, -5)
+        if myAISN_Firefly.frontangle > math.pi/4 and myAISN_Firefly.frontangle <= 3*math.pi/4 then
+            myAISN_Firefly:accelerate(0, -10)
+        else
+            myAISN_Firefly:accelerate(0, -5)
+        end
     end
     if love.keyboard.isDown('a') then
-        AISN_Firefly:accelerate(-5, 0)
+        if myAISN_Firefly.frontangle > 7*math.pi/4 or myAISN_Firefly.frontangle <= math.pi/4 then
+            myAISN_Firefly:accelerate(-10, 0)
+        else 
+            myAISN_Firefly:accelerate(-5, 0)
+        end
     end
     if love.keyboard.isDown('s') then
-        AISN_Firefly:accelerate(0, 5)
+        if myAISN_Firefly.frontangle > 5*math.pi/4 and myAISN_Firefly.frontangle <= 7*math.pi/4 then
+            myAISN_Firefly:accelerate(0, 10)
+        else 
+            myAISN_Firefly:accelerate(0, 5)
+        end
     end
     if love.keyboard.isDown('d') then
-        AISN_Firefly:accelerate(5, 0)
+        if myAISN_Firefly.frontangle > 3*math.pi/4 and myAISN_Firefly.frontangle <= 5*math.pi/4 then
+            myAISN_Firefly:accelerate(50, 0)
+        else 
+            myAISN_Firefly:accelerate(5, 0)
+        end
     end
     if love.keyboard.isDown('escape') then
         love.window.close()

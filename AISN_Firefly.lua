@@ -96,6 +96,7 @@ function AISN_Firefly.draw(self)
     love.graphics.print(self.cursorangle, 0, 60)
 end
 
+
 --this is the whole update loop for everything position and rotation related
 function AISN_Firefly.updateposition(self, dt)
 --calculating the velocity by adding the thrust to the existing velocity and feeding back the world coordonates of the ship
