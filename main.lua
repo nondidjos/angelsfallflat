@@ -59,7 +59,7 @@ function love.update(dt)
     end
     if love.keyboard.isDown('d') then
         if myAISN_Firefly.frontangle > 3*math.pi/4 and myAISN_Firefly.frontangle <= 5*math.pi/4 then
-            myAISN_Firefly:accelerate(50, 0)
+            myAISN_Firefly:accelerate(10, 0)
         else 
             myAISN_Firefly:accelerate(5, 0)
         end

@@ -91,9 +91,16 @@ function AISN_Firefly.draw(self)
     love.graphics.draw(myAISN_Firefly.img, AISN_Firefly.screen_position.x - self.tr_x, AISN_Firefly.screen_position.y - self.tr_y, AISN_Firefly.frontangle)
 --printing values for debugging
     love.graphics.print(self.cursorangle - self.frontangle)
+    love.graphics.print("difference btw c.a and f.a", 150, 0)
     love.graphics.print(self.rotspeed, 0, 20)
+    love.graphics.print("rotspeed", 40, 20)
     love.graphics.print(self.frontangle, 0, 40)
+    love.graphics.print("frontangle", 150, 40)
     love.graphics.print(self.cursorangle, 0, 60)
+    love.graphics.print("cursorangle", 150, 60)
+    love.graphics.print(self.velocity.x, 0, 80)
+    love.graphics.print(self.velocity.y, 100, 80)
+    love.graphics.print("x and y velocity", 150, 80)
 end
 
 
