@@ -11,7 +11,7 @@ function AISN_Firefly.new(self, l, r, w, h)
     self.h = h
     self.cx = self.w/2
     self.cy = self.h/2
--- coordonates of the center after rotation
+--coordonates of the center after rotation
     self.tr_x = self.cx
     self.tr_y = self.cy
     AISN_Firefly.screen_position = {}
@@ -30,7 +30,7 @@ function AISN_Firefly.new(self, l, r, w, h)
     AISN_Firefly.frontangle = 0
     AISN_Firefly.rotspeed = 0
 
---AISN_Firefly.health = 50
+--  AISN_Firefly.health = 50
 --creating our body
     AISN_Firefly.body = love.physics.newBody(world, AISN_Firefly.screen_position.x, AISN_Firefly.screen_position.y, "dynamic")
     AISN_Firefly.shape = love.physics.newPolygonShape(AISN_Firefly.w, AISN_Firefly.h, 100, 200, 300, 400)
