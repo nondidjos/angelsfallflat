@@ -30,6 +30,8 @@ function AISN_Firefly.new(self, l, r, w, h)
     AISN_Firefly.frontangle = 0
     AISN_Firefly.rotspeed = 0
 
+    AISN_Firefly.flightmode = true
+
 --  AISN_Firefly.health = 50
 --creating our body
     AISN_Firefly.body = love.physics.newBody(world, AISN_Firefly.screen_position.x, AISN_Firefly.screen_position.y, "dynamic")
@@ -101,6 +103,10 @@ function AISN_Firefly.draw(self)
     love.graphics.print(self.velocity.x, 0, 80)
     love.graphics.print(self.velocity.y, 100, 80)
     love.graphics.print("x and y velocity", 150, 80)
+    if self.flightmode == true then
+        love.graphics.print("flight mode true", 0, 100)
+    else love.graphics.print("flight mode false", 0, 100)
+    end
 end
 
 

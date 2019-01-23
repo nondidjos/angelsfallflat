@@ -64,8 +64,23 @@ function love.update(dt)
             myAISN_Firefly:accelerate(5, 0)
         end
     end
+
+    if myAISN_Firefly.flightmode == true then
+        local velocity = math.sqrt(myAISN_Firefly.velocity.x^2 + myAISN_Firefly.velocity.y^2)
+        if velocity > 0 and velocity < 500 then 
+            myAISN_Firefly.velocity.x = myAISN_Firefly.velocity.x * (velocity - 1)/velocity 
+            myAISN_Firefly.velocity.y = myAISN_Firefly.velocity.y * (velocity - 1)/velocity
+        end
+    end
+
     if love.keyboard.isDown('escape') then
         love.window.close()
     end
     AISN_Firefly:updateposition(dt)
+end
+
+function love.keypressed(k)
+    if k == "c" then
+        myAISN_Firefly.flightmode = not myAISN_Firefly.flightmode
+    end
 end
