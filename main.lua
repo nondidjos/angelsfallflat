@@ -1,4 +1,4 @@
--- version 0.07
+-- version 0.08
 -- by nondidjos
 
 
@@ -37,40 +37,16 @@ function love.update(dt)
     world:update(dt)
 
     if love.keyboard.isDown('w') then
-        if myAISN_Firefly.frontangle > math.pi/4 and myAISN_Firefly.frontangle <= 3*math.pi/4 then
-            myAISN_Firefly:accelerate(0, -10)
-        else
-            myAISN_Firefly:accelerate(0, -5)
-        end
+        myAISN_Firefly:moveup()
     end
     if love.keyboard.isDown('a') then
-        if myAISN_Firefly.frontangle > 7*math.pi/4 or myAISN_Firefly.frontangle <= math.pi/4 then
-            myAISN_Firefly:accelerate(-10, 0)
-        else 
-            myAISN_Firefly:accelerate(-5, 0)
-        end
+        myAISN_Firefly:moveleft()
     end
     if love.keyboard.isDown('s') then
-        if myAISN_Firefly.frontangle > 5*math.pi/4 and myAISN_Firefly.frontangle <= 7*math.pi/4 then
-            myAISN_Firefly:accelerate(0, 10)
-        else 
-            myAISN_Firefly:accelerate(0, 5)
-        end
+        myAISN_Firefly:movedown()
     end
     if love.keyboard.isDown('d') then
-        if myAISN_Firefly.frontangle > 3*math.pi/4 and myAISN_Firefly.frontangle <= 5*math.pi/4 then
-            myAISN_Firefly:accelerate(10, 0)
-        else 
-            myAISN_Firefly:accelerate(5, 0)
-        end
-    end
-
-    if myAISN_Firefly.flightmode == true then
-        local velocity = math.sqrt(myAISN_Firefly.velocity.x^2 + myAISN_Firefly.velocity.y^2)
-        if velocity > 0 and velocity < 500 then 
-            myAISN_Firefly.velocity.x = myAISN_Firefly.velocity.x * (velocity - 1)/velocity 
-            myAISN_Firefly.velocity.y = myAISN_Firefly.velocity.y * (velocity - 1)/velocity
-        end
+        myAISN_Firefly:moveright()
     end
 
     if love.keyboard.isDown('escape') then

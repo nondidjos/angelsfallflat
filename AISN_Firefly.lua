@@ -46,7 +46,7 @@ end
 
 
 --doing the math to rotate the ship returning the rot value
-function calc_rot(x, y)
+function AISN_Firefly.calcrot(x, y)
     curX, curY = love.mouse.getPosition()
     DX = curX - x
     DY = curY - y
@@ -116,7 +116,7 @@ function AISN_Firefly.updateposition(self, dt)
     self.world_position.x = self.world_position.x + dt * self.velocity.x
     self.world_position.y = self.world_position.y + dt * self.velocity.y
 
-    self.cursorangle = calc_rot(self.screen_position.x, self.screen_position.y) + math.pi
+    self.cursorangle = AISN_Firefly.calcrot(self.screen_position.x, self.screen_position.y) + math.pi
 
 --here we use convangle and apply it, adding 2 fields that determine when we start applying rotation to avoid shaking
     ra = self.convangle(self.cursorangle - self.frontangle)
@@ -142,6 +142,15 @@ function AISN_Firefly.updateposition(self, dt)
 --here we center the body correctly using the translate vlues and the screen pos stuff we did earlier
     self.body:setPosition(self.screen_position.x - self.tr_x, self.screen_position.y - self.tr_y)
 
+--add comment here
+    if myAISN_Firefly.flightmode == true then
+        local velocity = math.sqrt(myAISN_Firefly.velocity.x^2 + myAISN_Firefly.velocity.y^2)
+        if velocity > 0 and velocity < 500 then 
+            myAISN_Firefly.velocity.x = myAISN_Firefly.velocity.x * (velocity - 1)/velocity 
+            myAISN_Firefly.velocity.y = myAISN_Firefly.velocity.y * (velocity - 1)/velocity
+        end
+    end
+
 --here we check wether the ship's angle is pointing to the left or the right and changing the sprite accordingly so it stays upright
     if self.frontangle >= 0 and self.frontangle < math.pi/2 then
         self.img = self.imgl
@@ -149,6 +158,35 @@ function AISN_Firefly.updateposition(self, dt)
         self.img = self.imgr
     elseif self.frontangle >= 3*math.pi/2 and self.frontangle < 2*math.pi then
         self.img = self.imgl
+    end
+end
+
+function AISN_Firefly.moveup(self)
+    if self.frontangle > math.pi/4 and self.frontangle <= 3*math.pi/4 then
+        self:accelerate(0, -10)
+    else
+        self:accelerate(0, -5)
+    end
+end
+function AISN_Firefly.moveleft(self)
+    if self.frontangle > 7*math.pi/4 or self.frontangle <= math.pi/4 then
+        self:accelerate(-10, 0)
+    else 
+        self:accelerate(-5, 0)
+    end
+end
+function AISN_Firefly.movedown(self)
+    if self.frontangle > 5*math.pi/4 and self.frontangle <= 7*math.pi/4 then
+        self:accelerate(0, 10)
+    else 
+        self:accelerate(0, 5)
+    end
+end
+function AISN_Firefly.moveright(self)
+    if self.frontangle > 3*math.pi/4 and self.frontangle <= 5*math.pi/4 then
+        self:accelerate(10, 0)
+    else 
+        self:accelerate(5, 0)
     end
 end
 
